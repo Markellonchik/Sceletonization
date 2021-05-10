@@ -24,10 +24,12 @@ public class Main {
 
 		BinaryImage thinnedImage = null;
 		try {
+			thinning.thin(image);
 			thinnedImage = new BinaryImage(thinning.thin(image));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println(thinning.algorithm.lastExecutionTime() / 1000000.0);
 		
 		canvas.addImage(thinnedImage);
 		
