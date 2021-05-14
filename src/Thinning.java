@@ -25,7 +25,15 @@ public class Thinning {
 	}
 	
 	public byte[][] thin(byte[][] image) {
-		return algorithm.thin(image);
+		int n = image.length;
+		int m = image[0].length;
+		byte[][] ar = new byte[n][m];
+		for(int i = 0; i < n; ++i) {
+			for(int j = 0; j < m; ++j) {
+				ar[i][j] = image[i][j];
+			}
+		}
+		return algorithm.thin(ar);
 	}
 	
 }

@@ -11,20 +11,23 @@ public class Main {
 		ImageCanvas canvas = new ImageCanvas(frame.getWidth(), frame.getHeight());
 		frame.add(canvas);
 		
-		Thinning thinning = new Thinning(new ZhangSuenAlgorithm());
+		ZhangSuenAlgorithm zsAlg = new ZhangSuenAlgorithm();
+		zsAlg.precalc();
+		System.out.println("Zhang-Suen algorithm precalc: " + zsAlg.lastExecutionTime() / 1000000.0);
+		
+		Thinning thinning = new Thinning(zsAlg);
 		BinaryImage image = null;
 		
 		try {
-			image = new BinaryImage("bigImage.jpg");
+			image = new BinaryImage("mushroom.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		canvas.addImage(image);
-
+		
 		BinaryImage thinnedImage = null;
 		try {
-			thinning.thin(image);
 			thinnedImage = new BinaryImage(thinning.thin(image));
 		} catch (Exception e) {
 			e.printStackTrace();

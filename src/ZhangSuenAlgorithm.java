@@ -1,14 +1,14 @@
 
-public class ZhangSuenAlgorithm implements Algorithm {
-	int cnt = 0;
-	long lastExecutionTime = 0;
-	int threadsCount = 8;
+public class ZhangSuenAlgorithm implements PrecalcAlgorithm {
+	private int cnt = 0;
+	private long lastExecutionTime = 0;
 	
-	Thread[] threads;
-	boolean[] precalcCheck1;
-	boolean[] precalcCheck2;
+	private boolean[] precalcCheck1;
+	private boolean[] precalcCheck2;
 	
 	public void precalc() {
+		lastExecutionTime = System.nanoTime();
+
 		precalcCheck1 = new boolean[1 << 8];
 		precalcCheck2 = new boolean[1 << 8];
 		for(int i = 0; i < (1 << 8); ++i) {
@@ -23,26 +23,28 @@ public class ZhangSuenAlgorithm implements Algorithm {
 			precalcCheck1[i] = check1(p2, p3, p4, p5, p6, p7, p8, p9);
 			precalcCheck2[i] = check2(p2, p3, p4, p5, p6, p7, p8, p9);
 		}
+		lastExecutionTime = System.nanoTime() - lastExecutionTime;
 	}
 	
 	
 	
 	@Override
 	public byte[][] thin(byte[][] image) {
-
-		lastExecutionTime = System.nanoTime();
+		return precalcThin(image);
+		
+		/*lastExecutionTime = System.nanoTime();
 
 		int width = image.length;
 		int height = image[0].length;
 		byte[][] copyImage = new byte[width][height];
 		
-		/*for(int i = 0; i < width; ++i) {
+		for(int i = 0; i < width; ++i) {
 			for(int j = 0; j < height; ++j) {
 				copyImage[i][j] = image[i][j];
 			}
 		}
 		image = copyImage;
-		copyImage = new byte[width][height];*/
+		copyImage = new byte[width][height];
 		
 		while(true) {
 			for(int i = 0; i < width; ++i) {
@@ -69,7 +71,7 @@ public class ZhangSuenAlgorithm implements Algorithm {
 		}
 		
 		lastExecutionTime = System.nanoTime() - lastExecutionTime;
-		return image;
+		return image;*/
 	}
 	
 	public byte[][] precalcThin(byte[][] image) {
@@ -202,7 +204,7 @@ public class ZhangSuenAlgorithm implements Algorithm {
 		}
 	}
 	
-	boolean check(byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9) {
+	private boolean check(byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9) {
 		int b = p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9;
 		if(b < 2 || b > 6) return false;
 		int a = 0;
@@ -214,13 +216,13 @@ public class ZhangSuenAlgorithm implements Algorithm {
 		return true;
 	}
 	
-	boolean check1(byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9) {
+	private boolean check1(byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9) {
 		if(!check(p2, p3, p4, p5, p6, p7, p8, p9)) return false;
 		if(p2 == 1 && p4 == 1 && p6 == 1) return false;
 		if(p4 == 1 && p6 == 1 && p8 == 1) return false;
 		return true;
 	}
-	boolean check2(byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9) {
+	private boolean check2(byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9) {
 		if(!check(p2, p3, p4, p5, p6, p7, p8, p9)) return false;
 		if(p2 == 1 && p4 == 1 && p8 == 1) return false;
 		if(p2 == 1 && p6 == 1 && p8 == 1) return false;
