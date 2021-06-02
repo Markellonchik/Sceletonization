@@ -91,7 +91,8 @@ public class ZhangSuenAlgorithm implements PrecalcAlgorithm {
 		}
 		image = copyImage;
 		copyImage = new byte[width][height];
-
+		
+		int iterations = 0;
 		while(true) {
 			for(int i = 0; i < width; ++i) {
 				precalcSolve1(i, image, copyImage);
@@ -101,6 +102,7 @@ public class ZhangSuenAlgorithm implements PrecalcAlgorithm {
 					image[i][j] = copyImage[i][j];
 				}
 			}
+			iterations++;
 			if(cnt == 0) break;
 			cnt = 0;
 			//Second iteration
@@ -112,9 +114,11 @@ public class ZhangSuenAlgorithm implements PrecalcAlgorithm {
 					image[i][j] = copyImage[i][j];
 				}
 			}
+			iterations++;
 			if(cnt == 0) break;
 			cnt = 0;
 		}
+		System.out.println("Iterations: " + iterations);
 		
 		lastExecutionTime = System.nanoTime() - lastExecutionTime;
 		return image;

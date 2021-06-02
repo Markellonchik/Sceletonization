@@ -25,6 +25,8 @@ public class Main {
 		}
 		
 		canvas.addImage(image);
+
+		System.out.println(image.getWidth() + "x" + image.getHeight());
 		
 		BinaryImage thinnedImage = null;
 		try {
